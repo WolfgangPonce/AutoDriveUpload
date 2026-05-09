@@ -4,65 +4,65 @@
 ![Platform](https://img.shields.io/badge/platform-Windows-blue?style=for-the-badge)
 ![Python](https://img.shields.io/badge/python-3.11+-green?style=for-the-badge&logo=python&logoColor=white)
 
-App pra Windows que monitora uma pasta e faz upload automatico de videos pro Google Drive. Util pra renders longos do Media Encoder ou qualquer outro fluxo onde voce quer ir dormir e o computador resolve.
+Windows app that watches a folder and automatically uploads videos to Google Drive. Useful for long renders in Media Encoder, or any workflow where you want to go to bed and let the computer handle it.
 
 ## Download
 
-Baixe a versao mais recente em [Releases](https://github.com/WolfgangPonce/AutoDriveUploader/releases) e rode o `AutoDriveUploader.exe`. Sem instalacao, sem configuracao manual de OAuth.
+Grab the latest version from [Releases](https://github.com/WolfgangPonce/AutoDriveUploader/releases) and run `AutoDriveUploader.exe`. No install, no manual OAuth setup.
 
-## Funcionalidades
+## Features
 
-**Principais:**
-- Monitora uma pasta esperando videos novos (`.mp4`, `.mov`, `.mkv`, `.avi`)
-- Detecta quando o render terminou (tamanho do arquivo estavel por 30s)
-- Faz upload pra pasta especifica do Google Drive
-- Filtro por nome exato OU padrao glob (ex: `*.mp4`, `render_*.mov`)
-- Move arquivo pra outra pasta apos upload (opcional)
-- Desliga o PC quando termina (opcional)
-- Toca som quando termina (opcional, configuravel)
-- Mostra qual conta Google esta conectada
+**Core:**
+- Watches a folder for new videos (`.mp4`, `.mov`, `.mkv`, `.avi`)
+- Detects when render finished (file size stable for 30s)
+- Uploads to a specific Google Drive folder
+- Filter by exact name OR glob pattern (e.g. `*.mp4`, `render_*.mov`)
+- Move file to another folder after upload (optional)
+- Shut down PC when done (optional)
+- Play sound when done (optional, configurable)
+- Shows which Google account is connected
 
-**Configuracoes:**
-- Idioma: Portugues / Ingles (autodetecta no primeiro uso)
-- Tema: Claro / Escuro
-- Som ao terminar: beep, notificacao Windows, ou arquivo .wav/.mp3 customizado
-- Apagar todo o historico
+**Settings:**
+- Language: Portuguese / English (autodetects on first run)
+- Theme: Light / Dark
+- Finish sound: beep, Windows notification, or custom `.wav`/`.mp3` file
+- Clear all history
 
-**Historico e logs:**
-- Historico de todos os uploads (data, arquivo, tamanho, status)
-- Log de erros separado pra debug
+**History and logs:**
+- Upload history (date, file, size, status)
+- Separate error log for debugging
 
-## Como usar
+## How to use
 
-1. **Conecta a conta do Google Drive**
-   - Clica em "Conectar"
-   - Vai abrir o navegador pedindo pra logar e autorizar
-   - Confirma e fecha o navegador
-   - Status muda pra "Conectado: seu@email.com"
+1. **Connect your Google Drive account**
+   - Click "Connect"
+   - Browser opens asking you to log in and authorize
+   - Confirm and close the browser
+   - Status changes to "Connected: your@email.com"
 
-2. **Cola o link da pasta destino do Drive**
-   - Abre a pasta no Drive pelo navegador
-   - Copia a URL completa
-   - Cola no campo
+2. **Paste the destination Drive folder link**
+   - Open the folder in Drive in your browser
+   - Copy the full URL
+   - Paste it in the field
 
-3. **Seleciona a pasta a monitorar** (onde o Media Encoder/Premiere/etc renderiza)
+3. **Pick the folder to watch** (where Media Encoder/Premiere/etc renders)
 
-4. **Define o filtro de arquivo**
-   - **Padrao**: aceita varios. Ex: `*.mp4`, `render_*.mov`
-   - **Nome exato**: so aceita um. Ex: `video_final.mp4`
+4. **Set the file filter**
+   - **Pattern**: matches multiple files. E.g. `*.mp4`, `render_*.mov`
+   - **Exact name**: matches one file only. E.g. `final_video.mp4`
 
-5. **(Opcional) Marca "mover apos upload"** e escolhe a pasta destino
+5. **(Optional) Check "move after upload"** and pick a destination folder
 
-6. **(Opcional) Marca "desligar PC apos terminar"** ou "tocar som ao terminar"
+6. **(Optional) Check "shut down PC after finishing"** or "play sound when done"
 
-7. **Clica em "Iniciar monitoramento"** e pode ir dormir
+7. **Click "Start monitoring"** and you can go to sleep
 
-## Buildar do source
+## Build from source
 
-### Pre-requisitos
+### Prerequisites
 
-- **Python 3.11+** com "Add Python to PATH" marcado
-- **rclone.exe** baixado de https://rclone.org/downloads/ e colocado em `bin/rclone.exe`
+- **Python 3.11+** with "Add Python to PATH" checked
+- **rclone.exe** downloaded from https://rclone.org/downloads/ and placed in `bin/rclone.exe`
 
 ### Build
 
@@ -70,35 +70,35 @@ Baixe a versao mais recente em [Releases](https://github.com/WolfgangPonce/AutoD
 build.bat
 ```
 
-O script le a versao do arquivo `VERSION`, compila e organiza tudo em:
+The script reads the version from the `VERSION` file, compiles, and organizes everything in:
 
 ```
-C:\Users\<voce>\OneDrive\Documents\Apps\Autodrive Uploader\<versao>\
+C:\Users\<you>\OneDrive\Documents\Apps\Autodrive Uploader\<version>\
 ├── AutoDriveUploader.exe
 ├── CHANGELOG.md
 └── source\
 ```
 
-### Versionamento
+### Versioning
 
-Esquema usado: `1.X.Y` (semver simplificado)
-- **X** sobe em mudancas grandes (feature nova, refactor, breaking change)
-- **Y** sobe em mudancas pequenas (bugfix, ajuste de UI, polimento)
+Scheme used: `1.X.Y` (simplified semver)
+- **X** bumps for big changes (new feature, refactor, breaking change)
+- **Y** bumps for small changes (bugfix, UI tweak, polish)
 
-## Estrutura
+## Project structure
 
 ```
 AutoDriveUploader/
-├── main.py              # GUI principal (Tkinter)
-├── uploader.py          # Logica de monitoramento
-├── rclone_manager.py    # Wrapper do rclone
-├── config_store.py      # Persistencia de configs
-├── history_store.py     # Historico de uploads e log de erros
-├── sound_player.py      # Player de sons (winsound + mciSendString)
-├── i18n.py              # Sistema de traducoes (PT/EN)
-├── version.py           # Le arquivo VERSION
+├── main.py              # Main GUI (Tkinter)
+├── uploader.py          # Folder monitoring logic
+├── rclone_manager.py    # rclone wrapper
+├── config_store.py      # Config persistence
+├── history_store.py     # Upload history and error log
+├── sound_player.py      # Sound player (winsound + mciSendString)
+├── i18n.py              # Translation system (PT/EN)
+├── version.py           # Reads VERSION file
 ├── bin/
-│   └── rclone.exe       # Voce baixa e coloca aqui
+│   └── rclone.exe       # You download and place this here
 ├── VERSION              # 1.0.0
 ├── CHANGELOG.md
 ├── build.bat
@@ -106,36 +106,36 @@ AutoDriveUploader/
 └── requirements.txt
 ```
 
-## Onde os dados ficam salvos
+## Where data is stored
 
 `%APPDATA%\AutoDriveUploader\`
 
-- `config.json` - preferencias (idioma, tema, paths, etc)
-- `rclone.conf` - token OAuth do Google Drive
-- `upload_history.jsonl` - historico de uploads
-- `errors.log` - log de erros
+- `config.json` - user preferences (language, theme, paths, etc)
+- `rclone.conf` - Google Drive OAuth token
+- `upload_history.jsonl` - upload history
+- `errors.log` - error log
 
-Pra resetar tudo, deleta a pasta inteira.
+To reset everything, delete that folder.
 
-## Limitacoes conhecidas
+## Known limitations
 
-- **Windows only** (mciSendString, shutdown, winsound sao especificos do Windows)
-- **Rate limit do rclone**: o app usa o client_id padrao do rclone, compartilhado entre usuarios. Pra uso pessoal e poucos amigos funciona bem.
-- **Email da conta** pode demorar 1-2s pra carregar apos conectar
-- **mp3 customizado**: alguns codecs raros podem nao tocar. Use `.wav` se der problema.
+- **Windows only** (mciSendString, shutdown, winsound are Windows-specific)
+- **rclone rate limit**: the app uses rclone's default client_id, which is shared across users. Fine for personal use and a few friends.
+- **Account email** may take 1-2s to load after connecting
+- **Custom mp3**: some uncommon codecs might not play. Use `.wav` if you run into issues.
 
 ## Troubleshooting
 
-**"rclone.exe nao encontrado"**: baixa em https://rclone.org/downloads/ e coloca em `bin/`.
+**"rclone.exe not found"**: download from https://rclone.org/downloads/ and put it in `bin/`.
 
-**App abre em ingles mas quero portugues**: vai em Configuracoes > Idioma > Portugues.
+**App opens in Portuguese but I want English**: go to Settings > Language > English.
 
-**Som nao toca**: testa primeiro com "Testar som" na aba Configuracoes.
+**Sound not playing**: test it first with "Test sound" in the Settings tab.
 
-## Suporte
+## Support
 
-Se o AutoDrive Uploader te ajudou, voce pode [me pagar um cafe](https://www.buymeacoffee.com/WolfgangPonce) ☕. Ajuda a manter projetos como esse.
+If AutoDrive Uploader is useful to you, you can [buy me a coffee](https://www.buymeacoffee.com/WolfgangPonce) ☕. Helps keep projects like this going.
 
-## Licenca
+## License
 
-Uso pessoal e livre.
+Free for personal use.
